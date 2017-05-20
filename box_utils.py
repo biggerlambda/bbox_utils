@@ -125,7 +125,7 @@ class BoxUtils:
         # output is numboxes x 1. The ith element in this output is iou between
         # ith box in boxes1 and ith box in boxes2
 
-        if boxes1.size(0) == boxes2.size(0):
+        if boxes1.size(0) != boxes2.size(0):
             sys.exit("boxes size should be same")
         # check intersection area
         size = boxes1[:,0].size()
