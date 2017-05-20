@@ -3,6 +3,7 @@ import math
 from torch.autograd import Variable
 from torchvision import transforms
 from PIL import Image, ImageDraw
+import sys
 
 class BoxUtils:
     def __init__(self, num_cells, w, h, dtype=torch.FloatTensor, autograd_is_on=False):
@@ -119,9 +120,13 @@ class BoxUtils:
 
     def iou(self, boxes1, boxes2):
         # computes intersection over union of two axis aligned boxes
-        # box is (xmin, ymin, xmax, ymax) where x, y is left upper corner
-        # output is numboxes x 1
+        # Input is number_of_boxes x 4. boxes1 and boxes2 are same in number.
+        # each box is (xmin, ymin, xmax, ymax) where x, y is left lower corner
+        # output is numboxes x 1. The ith element in this output is iou between
+        # ith box in boxes1 and ith box in boxes2
 
+        if boxes1.size(0) == boxes2.size(0):
+            sys.exit("boxes size should be same")
         # check intersection area
         size = boxes1[:,0].size()
 
